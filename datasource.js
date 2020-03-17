@@ -14,13 +14,23 @@ export class BlogAPI extends RESTDataSource {
       } );
   }
 
-  async getPost(id) {
+  async getPost(id, token) {
     const result = await this.get(`posts/${id}`, undefined,
     {
         headers: {
-          'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJleHAiOjE1ODQ1MDAyMzh9.9M0MqMZQU9F3SkGeaFUEcaa5yyHUbcgfDVqRwnQv1kI',
+          'Authorization': token,
         },
       }
+    );
+
+    return result;
+  }
+
+  async getUser(email, password) {
+    const result = await this.post(`login/`, {
+        email,
+        password
+    }
     );
 
     return result;
