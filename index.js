@@ -7,11 +7,11 @@ let jwt_token = "";
 
 const typeDefs = gql`
   type Post {
-    id: Int!
+    id: Int
     title: String!
     content: String!
-    created_at: String!
-    updated_at: String!
+    created_at: String
+    updated_at: String
   }
 
   type User {
@@ -29,6 +29,10 @@ const typeDefs = gql`
     post(id: Int!): Post
     posts: [Post]
     login(email: String!, password: String!): LoginResponse!
+  }
+
+  type Mutation {
+    post(title: String!, content: String!): Post!
   }
 `;
 
@@ -52,6 +56,18 @@ const resolvers = {
     posts: async (root, { token = jwt_token }, { dataSources }) => {
       const posts = await dataSources.blogApi.getAllPosts(token);
       return posts.map(post => ({ ...post }));
+    }
+  },
+
+  Mutation: {
+    // 2
+    post: async (
+      root,
+      { title, content, token = jwt_token },
+      { dataSources }
+    ) => {
+      const post = await dataSources.blogApi.createPost(title, content, token);
+      return post;
     }
   }
 };

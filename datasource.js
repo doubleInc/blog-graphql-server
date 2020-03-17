@@ -32,4 +32,21 @@ export class BlogAPI extends RESTDataSource {
 
     return result;
   }
+
+  async createPost(title, content, token) {
+    const result = await this.post(
+      `posts/`,
+      {
+        title,
+        content
+      },
+      {
+        headers: {
+          Authorization: token
+        }
+      }
+    );
+
+    return result;
+  }
 }
