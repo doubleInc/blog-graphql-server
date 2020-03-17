@@ -1,0 +1,22 @@
+{
+  "name": "blog-graphql-apollo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "apollo-datasource-rest": "^0.1.4",
+    "apollo-server": "^2.0.5",
+    "graphql": "^0.13.2"
+  },
+  "devDependencies": {
+    "esm": "^3.0.79",
+    "lodash": "^4.17.15"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node -r esm index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
