@@ -6,32 +6,29 @@ export class BlogAPI extends RESTDataSource {
     this.baseURL = "http://localhost:3000/";
   }
 
-  async getAllPosts() {
-    return this.get("posts", undefined, {
-        headers: {
-          'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJleHAiOjE1ODQ1MDAyMzh9.9M0MqMZQU9F3SkGeaFUEcaa5yyHUbcgfDVqRwnQv1kI',
-        },
-      } );
+  async getAllPosts(token) {
+    return this.get("posts/", undefined, {
+      headers: {
+        Authorization: token
+      }
+    });
   }
 
   async getPost(id, token) {
-    const result = await this.get(`posts/${id}`, undefined,
-    {
-        headers: {
-          'Authorization': token,
-        },
+    const result = await this.get(`posts/${id}`, undefined, {
+      headers: {
+        Authorization: token
       }
-    );
+    });
 
     return result;
   }
 
   async getUser(email, password) {
     const result = await this.post(`login/`, {
-        email,
-        password
-    }
-    );
+      email,
+      password
+    });
 
     return result;
   }

@@ -3,7 +3,7 @@ import mapKeys from "lodash/mapKeys";
 import { BlogAPI } from "./datasource";
 
 // store auth token
-let jwt_token = ''
+let jwt_token = "";
 
 const typeDefs = gql`
   type Post {
@@ -15,9 +15,9 @@ const typeDefs = gql`
   }
 
   type User {
-      id: Int!
-      email: String!
-      password_digest: String!
+    id: Int!
+    email: String!
+    password_digest: String!
   }
 
   type LoginResponse {
@@ -30,26 +30,29 @@ const typeDefs = gql`
     posts: [Post]
     login(email: String!, password: String!): LoginResponse!
   }
-  
 `;
 
 const resolvers = {
   Query: {
-    post: async (root, { id, token=jwt_token }, { dataSources }) => {
+    post: async (root, { id, token = jwt_token }, { dataSources }) => {
       const post = await dataSources.blogApi.getPost(id, token);
       return mapKeys(post, (value, key) => {
         return key;
       });
     },
     login: async (root, { email, password }, { dataSources }) => {
-        const user = await dataSources.blogApi.getUser(email, password);
-        return mapKeys(user, (value, key) => {
-          if (key === "auth_token") {
-            jwt_token = user["auth_token"]
-            return key;
-          }
-        });
-      }
+      const user = await dataSources.blogApi.getUser(email, password);
+      return mapKeys(user, (value, key) => {
+        if (key === "auth_token") {
+          jwt_token = user["auth_token"];
+          return key;
+        }
+      });
+    },
+    posts: async (root, { token = jwt_token }, { dataSources }) => {
+      const posts = await dataSources.blogApi.getAllPosts(token);
+      return posts.map(post => ({ ...post }));
+    }
   }
 };
 
