@@ -41,6 +41,7 @@ const resolvers = {
     post: async (root, { id, token = jwt_token }, { dataSources }) => {
       const post = await dataSources.blogApi.getPost(id, token);
       return mapKeys(post, (value, key) => {
+        // map over the post's keys
         return key;
       });
     },
@@ -48,6 +49,7 @@ const resolvers = {
       const user = await dataSources.blogApi.getUser(email, password);
       return mapKeys(user, (value, key) => {
         if (key === "auth_token") {
+          //store jwt token
           jwt_token = user["auth_token"];
           return key;
         }
@@ -55,12 +57,13 @@ const resolvers = {
     },
     posts: async (root, { token = jwt_token }, { dataSources }) => {
       const posts = await dataSources.blogApi.getAllPosts(token);
+      // return an array with each post
       return posts.map(post => ({ ...post }));
     }
   },
 
   Mutation: {
-    // 2
+    // create a new post
     post: async (
       root,
       { title, content, token = jwt_token },
