@@ -3,7 +3,7 @@ import { RESTDataSource } from "apollo-datasource-rest";
 export class BlogAPI extends RESTDataSource {
   constructor() {
     super();
-    this.baseURL = "http://localhost:3000/";
+    this.baseURL = "https://boiling-wildwood-92151.herokuapp.com/";
   }
 
   async getAllPosts(token) {
