@@ -75,14 +75,24 @@ const resolvers = {
   }
 };
 
+// const server = new ApolloServer({
+//   typeDefs,
+//   resolvers,
+//   dataSources: () => ({
+//     blogApi: new BlogAPI()
+//   })
+// });
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   dataSources: () => ({
     blogApi: new BlogAPI()
+  }),
+  introspection: true,
+  playground: true
+});
+server
+  .listen({
+    port: process.env.PORT || 4000
   })
-});
-
-server.listen().then(({ url }) => {
-  console.log(`🚀 Server ready at ${url}`);
-});
+  .then(({ url }) => console.log(`Server started at ${url}`));
